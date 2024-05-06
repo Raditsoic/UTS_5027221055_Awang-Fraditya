@@ -10,7 +10,7 @@ stub = recipe_recommendation_pb2_grpc.RecipeRecommendationStub(channel)
 def add_ingre():
     st.session_state["ingredients"].append(new_ingredient)
 
-st.title("Recipe App Recommendation")
+st.title("Recipe App Recommendation 🍳")
 
 if 'ingredients' not in st.session_state:
     st.session_state['ingredients'] = []
@@ -64,11 +64,13 @@ if st.session_state['edit_form']:
     new_ingredient = st.sidebar.text_input("Ingredients: ")
     new_steps = st.sidebar.text_input("Steps: ")
     
-    if st.sidebar.button("Cancel"):
+    col1, col2 = st.sidebar.columns(2)
+    
+    if col1.button("Cancel"):
         st.session_state['edit_form'] = False
         st.rerun()
         
-    if st.sidebar.button("Save"):
+    if col2.button("Save"):
         for i, recipe in enumerate(st.session_state["history"]):
             if recipe["Title"] == selected_recipe:
                 title=selected_recipe
@@ -89,8 +91,9 @@ else:
             steps = recipe["Steps"].split("; ")
             for index, step in enumerate(steps, start=1):
                 st.sidebar.markdown(f"{index}. {step.capitalize()}")
-
-    if st.sidebar.button("Delete Recipe"):
+    
+    col1, col2 = st.sidebar.columns(2)
+    if col1.button("Delete Recipe"):
         for i, recipe in enumerate(st.session_state["history"]):
             if recipe["Title"] == selected_recipe:
                 del st.session_state["history"][i]
@@ -98,7 +101,7 @@ else:
                 break 
         st.rerun()
             
-    if st.sidebar.button("Edit Recipe"):
+    if col2.button("Edit Recipe"):
         st.session_state['edit_form'] = True
         st.rerun()
         
